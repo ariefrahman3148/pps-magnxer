@@ -13,6 +13,7 @@ class Api extends REST_Controller {
        parent::__construct();
        $this->load->database();
        $this->load->model( array( 'm_blog') );
+       $this->load->model( array( 'm_job') );
     }
        
     /**
@@ -132,5 +133,12 @@ class Api extends REST_Controller {
        
         $this->response(['Item deleted successfully.'], REST_Controller::HTTP_OK);
     }
+
+    public function jobs_get()
+    {
+        $jobs = $this->m_job->jobs()->result();
+        return $this->response($jobs, 200);
+        
+    } 
     	
 }
