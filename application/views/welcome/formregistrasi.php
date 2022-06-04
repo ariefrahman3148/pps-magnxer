@@ -14,7 +14,7 @@ $this->load->view('template/navbar');
 					<div class="card-header w3-blue">Registrasi</div>
     			</div>
     			<div class="card-body">
-                  <form action="<?php echo site_url('login/prosesregistrasi');?>" method="post">
+                  <form id="register" action="<?php echo site_url('login/prosesregistrasi');?>" method="post">
                   <?php if ($message!=null): ?>
                       <!-- <div class="alert alert-warning"><?php echo $message;?></div> -->
                   <?php endif; ?>

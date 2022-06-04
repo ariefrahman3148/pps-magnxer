@@ -100,8 +100,8 @@ class Login extends CI_Controller {
 				);
 				$this->load->view( 'welcome/formregistrasi', $data );				
 
-				// $this->session->flashdata( 'message', validation_errors() );
-				// redirect( '/login/registrasi', 'refresh' );				
+				$this->session->flashdata( 'message', validation_errors() );
+				redirect( '/login/registrasi', 'refresh' );				
 			} else {
 				$password = $this->input->post( 'password' );
 				$username = $this->input->post( 'username' );
@@ -115,11 +115,11 @@ class Login extends CI_Controller {
 
 				if ( !$this->ion_auth->username_check( $email ) ) //cek username sudah terdaftar apa belum
 				{
-					// $group = array( $g );
+					$group = array( $g );
 					if($this->ion_auth->register( $email, $password, $email, $additional_data, array( $g ) )){
 						redirect('');
 					}else {
-						// $this->session->set_flashdata( 'message', "error" );
+						$this->session->set_flashdata( 'message', "error" );
 						redirect( 'registrasi' );
 					}
 				} else {
