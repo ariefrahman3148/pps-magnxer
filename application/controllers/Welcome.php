@@ -55,18 +55,29 @@ class Welcome extends CI_Controller {
 		$this->load->view('template/footer');
 	}
 
-	public function user()
+	public function blogs()
 	{
-		if ($this->ion_auth->logged_in()){
-			$user1 = $this->ion_auth->user()->row();
-			$user_groups = $this->ion_auth->get_users_groups($user1->id)->result();
-			$user = [
-				'user' => $user1,
-				'group' => $user_groups
-			];
-		} else {
-			$user = null;
-		};
-		echo json_encode($user);
+
+		$data = array(
+			'title' => "BLOGS",
+			'navroute' => "Blog",
+		);
+
+		$this->load->view('blog/list', $data);
 	}
+
+	// public function user()
+	// {
+	// 	if ($this->ion_auth->logged_in()){
+	// 		$user1 = $this->ion_auth->user()->row();
+	// 		$user_groups = $this->ion_auth->get_users_groups($user1->id)->result();
+	// 		$user = [
+	// 			'user' => $user1,
+	// 			'group' => $user_groups
+	// 		];
+	// 	} else {
+	// 		$user = null;
+	// 	};
+	// 	echo json_encode($user);
+	// }
 }

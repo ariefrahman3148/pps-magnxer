@@ -1,26 +1,32 @@
-        <!-- <script>
+        <script>
             $( document ).ready(function() {
                 let user;
+                document.getElementById('logout').style.display = 'none';
+                document.getElementById('login').style.display = 'none';
 
                 $.get("<?php echo base_url("/api/user") ?>", function(data){
                     console.log("data", data);
-                    if (data != null) {
-                        document.getElementById('logout').style.display = 'block';
-                        document.getElementById('login').style.display = 'none';
-                        // $("#user").text("Hello world!");
-                    } else {
-                        document.getElementById('logout').style.display = 'none';
-                        document.getElementById('login').style.display = 'block';
+                    document.getElementById('logout').style.display = 'block';
+                    document.getElementById('login').style.display = 'none';
+                    $("#user").text(data.user.first_name+" "+data.user.last_name+" ("+data.group[0].description+")");
+                    if(data.group.filter((g) => g.id == 1).length > 0){
+                        document.getElementById('admin').style.display = 'block';
+                    } else{
+                        document.getElementById('admin').style.display = 'none';
                     }
-                });
+                })
+                .fail(function() {
+                    document.getElementById('logout').style.display = 'none';
+                    document.getElementById('login').style.display = 'block';
+                })
             });
-        </script> -->
+        </script>
 
 <div class="body_wrapper">
         <header class="header_area">
             <nav class="navbar navbar-expand-lg menu_one">
                 <div class="container-fluid custom_container p0">
-                    <a class="navbar-brand" href="#"><img src="<?php echo base_url('asset/magnxer/logo.png') ?>" srcset="img/logo2x.png 2x" alt="logo"></a>
+                    <a class="navbar-brand" href="<?php echo base_url()?>"><img src="<?php echo base_url('asset/magnxer/logo.png') ?>" srcset="img/logo2x.png 2x" alt="logo"></a>
                     <a class="btn_get btn_hover mobile_btn ml-auto" href="#get-app">Get Started</a>
                     <button class="navbar-toggler collapsed" type="button" data-toggle="collapse"
                         data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -52,7 +58,7 @@
                                     href="#">Class</a>
                             </li>
                             <li class="nav-item  submenu <?php if($navroute == "Blog"){ echo "active";} ?>">
-                                <a class="nav-link" href="#"
+                                <a class="nav-link" href="<?php echo base_url("/blogs")?>"
                                     aria-haspopup="true" aria-expanded="false">
                                     Blog
                                 </a>
@@ -64,23 +70,18 @@
                                 </a>
                             </li>
                         </ul>
-                        <?php if($user !== null): ?>
-                        <div class="dropdown" >
+
+                        <div class="dropdown" id="logout" >
                             <button class="btn_get btn_hover hidden-sm hidden-xs" id="dropdownMenu2" data-toggle="dropdown" data-target="#dropdownprofil">Profil</button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenu2" name="dropdownprofil">
-                                <!-- <span class="dropdown-item-text" id="user"></span> -->
-                                <span class="dropdown-item-text"><?php  echo $user['user']->first_name . " " . $user['user']->last_name . " (" . $user['group'][0]->description . ")"; ?></span>
-                                <hr>
-                                <?php if($user['group'][0]->id == 1): ?>
-                                    <a class="dropdown-item" type="button" href="<?php echo base_url('/admin') ?>">Admin</a>
-                                <?php endif ?>
-
+                                <span class="dropdown-item-text" id="user"></span>
+                                 <hr>
+                                <a class="dropdown-item" type="button" id="admin" href="<?php echo base_url('/admin') ?>">Admin</a>
                                 <a class="dropdown-item" type="button" href="<?php echo base_url('/login/logout') ?>">Logout</a>
                             </div>
                         </div>
-                        <?php else: ?>
-                            <button  class="btn_get btn_hover hidden-sm hidden-xs" data-toggle="modal" data-target="#exampleModalCenter" >Sign In</button>
-                        <?php endif ?>
+                            <button  class="btn_get btn_hover hidden-sm hidden-xs" data-toggle="modal" data-target="#exampleModalCenter" id="login" >Sign In</button>
+
                     </div>
                 </div>
             </nav>

@@ -8,8 +8,8 @@
                         <div class="col-lg-12">
                             <div class="login_info">
                                 <h2 class="f_p f_600 f_size_24 t_color3 mb_40">Sign In</h2>
-                                <?php echo $this->session->flashdata('message');?>
-                                <form action="<?php echo site_url('login/proseslogin'); ?>" method="post" class="login-form sign-in-form">
+                                <div id="error_msg" class="bg-warning text-dark"></div>
+                                <form id="foo" class="login-form sign-in-form">
                                     <div class="form-group text_box">
                                     <?php echo form_error('email'); ?>
                                         <label class="f_p text_c f_400">Email</label>
@@ -54,3 +54,35 @@
 </div>
   </div>
 </div>
+
+<script>
+
+$(document).ready(function() {
+    $('form').submit(function(event) { //Trigger on form submit
+        $('#email + .throw_error').empty(); //Clear the messages first
+        $('#success').empty();
+
+        //Validate fields if required using jQuery
+
+        var postForm = { //Fetch form data
+            'email'     : $('input[name=email]').val(), //Store name fields value
+            'password'     : $('input[name=password]').val() //Store name fields value
+        };
+
+        $.ajax({ //Process the form using $.ajax()
+            type      : 'POST', //Method type
+            url       : '<?php echo base_url(); ?>api/login', //Your form processing file URL
+            data      : postForm, //Forms name
+            dataType  : 'json',
+            success   : function (response) {
+                location.reload();
+            },
+            error     : function(response) {
+                console.log("res",response);
+                $('#error_msg').html(response.responseJSON.message);
+            }
+        });
+        event.preventDefault(); //Prevent the default submit
+    });
+});
+</script>

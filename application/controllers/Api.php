@@ -12,6 +12,7 @@ class Api extends REST_Controller {
     public function __construct() {
        parent::__construct();
        $this->load->database();
+       $this->load->model( array( 'm_blog') );
     }
        
     /**
@@ -29,10 +30,10 @@ class Api extends REST_Controller {
 				'group' => $user_groups
 			];
 		} else {
-			$user = null;
+			return $this->response(array('status' => 'not logged'),502);
 		};
      
-        $this->response($user, REST_Controller::HTTP_OK);
+        return $this->response($user, 200);
 	}
       
     /**
@@ -40,12 +41,71 @@ class Api extends REST_Controller {
      *
      * @return Response
     */
-    public function index_post()
+    public function login_post()
     {
-        $input = $this->input->post();
-        $this->db->insert('items',$input);
-     
-        $this->response(['Item created successfully.'], REST_Controller::HTTP_OK);
+        $input = $this->post();
+        $this->load->library( 'form_validation' );
+			$this->form_validation->set_rules( 'email', 'Email', 'required' );
+			$this->form_validation->set_rules( 'remember', 'Remember me', 'integer' );
+			if ( $this->form_validation->run() == TRUE ) {
+				$remember = ( bool )$this->input->post( 'remember' );
+				if ( $this->ion_auth->login( $this->input->post( 'email' ), $this->input->post( 'password' ), $remember ) ) {
+					$user1 = $this->ion_auth->user()->row();
+                    $user_groups = $this->ion_auth->get_users_groups($user1->id)->result();
+                    $user = [
+                        'user' => $user1,
+                        'group' => $user_groups
+                    ];
+                    return $this->response($user, 200);
+				} else {
+					$this->session->flashdata( 'message', $this->ion_auth->errors() );
+					return $this->response(array('status' => 'not logged', 'message' => $this->ion_auth->errors()),502);
+				}
+			}
+    } 
+
+    public function blogadd_post()
+    {
+        $input = $this->post();
+        $title = $this->input->post( 'title' );
+        $text = $this->input->post( 'text' );
+        $author = $this->input->post( 'author' );
+        $thumb = $this->input->post( 'thumbnail' );
+        $this->load->library( 'form_validation' );
+			$this->form_validation->set_rules( 'title','Title', 'required' );
+			$this->form_validation->set_rules( 'author','Author', 'required' );
+			if ( $this->form_validation->run() == TRUE ) {
+				$this->m_blog->add($title,$thumb,$text,$author);
+                return $this->response("success", 200);
+            } else {
+                $this->session->flashdata( 'message', $this->ion_auth->errors() );
+                return $this->response(array('status' => 'error', 'message' => validation_errors()),502);
+            }
+    } 
+
+    public function blogupdate_post()
+    {
+        $input = $this->post();
+        $id = $this->input->post( 'id' );
+        $title = $this->input->post( 'title' );
+        $text = $this->input->post( 'text' );
+        $thumb = $this->input->post( 'thumbnail' );
+        $this->load->library( 'form_validation' );
+			$this->form_validation->set_rules( 'title','Title', 'required' );
+			if ( $this->form_validation->run() == TRUE ) {
+				$this->m_blog->update($id,$title,$thumb,$text);
+                return $this->response("success", 200);
+            } else {
+                $this->session->flashdata( 'message', $this->ion_auth->errors() );
+                return $this->response(array('status' => 'error', 'message' => validation_errors()),502);
+            }
+    } 
+
+    public function blogs_get()
+    {
+        $blogs = $this->m_blog->blogs()->result();
+        return $this->response($blogs, 200);
+        
     } 
      
     /**

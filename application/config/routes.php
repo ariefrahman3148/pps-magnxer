@@ -51,5 +51,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $route['default_controller'] = 'welcome';
 $route['registrasi'] = 'login/registrasi';
+$route['blogs'] = 'welcome/blogs';
 $route['welcome'] = '';
 $route['translate_uri_dashes'] = FALSE;
