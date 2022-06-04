@@ -80,15 +80,15 @@ $db['default'] = array(
 	// 'password' => 'Demo1234!',
 	// 'database' => 'magnxer2022',
 
-	// 'hostname' => 'magnxer.jux.in',
-	// 'username' => 'magnxerj',
-	// 'password' => 'h8p3LP4ew1',
-	// 'database' => 'magnxerj_1',
+	'hostname' => 'magnxer.jux.in',
+	'username' => 'magnxerj',
+	'password' => 'h8p3LP4ew1',
+	'database' => 'magnxerj_1',
 
-	'hostname' => 'localhost',
-	'username' => 'root',
-	'password' => '',
-	'database' => 'magnxer',
+	// 'hostname' => 'localhost',
+	// 'username' => 'root',
+	// 'password' => '',
+	// 'database' => 'magnxer',
 
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
