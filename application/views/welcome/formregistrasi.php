@@ -19,7 +19,7 @@ $this->load->view('template/navbar');
                       <!-- <div class="alert alert-warning"><?php echo $message;?></div> -->
                   <?php endif; ?>
                       <div class="form-group">
-                        <label for="nama">Nama Lengkap</label>
+                        <label for="nama">Full Name</label>
                         <div class="row">
                             <div class="col-md-6 col-sm-6">
                               <input type="text" class="form-control" id="first_name" name="first_name" placeholder="Nama Depan">
@@ -34,19 +34,27 @@ $this->load->view('template/navbar');
                       <div class="form-group">
                         <div class="row">
                               <div class="col-md-6 col-sm-6">
-                                  <label for="phone">No Tlp</label>
+                                  <label for="phone">Phone</label>
                                   <input type="text" class="form-control" id="phone" name="phone" placeholder="nomer tlp">
                                   <span class="text-error"><?php echo form_error('phone'); ?></span>
                               </div>
                               <div class="col-md-6 col-sm-6">
-                                <label for="phone">Daftar Sebagai</label>
-                                <select class="custom-select" id="group" name="group">
+                                <label for="phone">Register as</label>
+                                <select class="custom-select" id="group" name="group" onchange="changehandler(this)">
                                   <option value="3">Talent</option>
-                                  <option value="4">Perusahaan</option>
+                                  <option value="4">Company</option>
                                 </select>
                               </div>
                           </div>
                         
+                      </div>
+                      <div id="perusahaan_sec" style="display: none;">
+                        <hr>
+                        <div class="col-md-12">
+                                <label for="company">Company</label>
+                                <select class="custom-select" id="company" name="company">
+                                </select>
+                        </div>
                       </div>
                       <hr>
                       <div class="form-group">
@@ -69,6 +77,28 @@ $this->load->view('template/navbar');
         </div>
     </div>
 </div>
+
+<script>
+
+function changehandler(e){
+  var value = e.value;
+  if(value == 4){
+    document.getElementById('perusahaan_sec').style.display = 'block';
+  } else {
+    document.getElementById('perusahaan_sec').style.display = 'none';
+    $("#company").val("");
+  }
+}
+var companies;
+
+$.get("<?php echo base_url("/api/companies") ?>", function(data){
+    console.log("data", data);
+    companies = data;
+    companies.map((r) => ( $("select#company").append( $("<option />").val(r.id).text(r.name) )));
+});
+
+
+</script>
 
 
 <?php

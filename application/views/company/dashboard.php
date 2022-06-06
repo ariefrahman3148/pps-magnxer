@@ -2,9 +2,8 @@
 $this->load->view('template/header');
 $this->load->view('template/preloader');
 $this->load->view('template/navbar');
-// $this->load->view('template/title');
 
-// var_dump($user);
+
 ?>
 <section class="job_apply_area sec_pad bg_color">
             <div class="container-fluid">
@@ -13,7 +12,7 @@ $this->load->view('template/navbar');
                         <div class="job_info  p-0 ">
                             <div class="info_item p-2 text-primary" id="menu1">
                                 <a class="h6 btn button"  >
-                                    Artikel & Blog
+                                    Job
                                 </a>
                             </div>
                             <div class="info_item p-2" id="menu2">
@@ -28,14 +27,14 @@ $this->load->view('template/navbar');
                             <div class="card">
                                 <div id="collapseOne" class="collapse in show" aria-labelledby="headingOne">
                                 <div class="card-body">
-                                    <?php $this->load->view('admin/menuBlog');?>
+                                    <?php $this->load->view('company/menuJob');?>
                                 </div>
                                 </div>
                             </div>
                             <div class="card">
                                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo">
                                 <div class="card-body">
-                                    menu 2
+                                    Soon
                                 </div>
                                 </div>
                             </div>

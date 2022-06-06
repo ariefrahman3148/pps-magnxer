@@ -17,7 +17,10 @@ class M_job extends CI_Model
 		return $this->db->query( "SELECT * FROM Job WHERE nama = '$id' " );
 	}
 
-	
+	function job_company ($id){
+		return $this->db->query( "SELECT * FROM Job WHERE companyID = '$id' " );
+	}
+
 	function update($id,$title,$thumb,$text){
 		return $this->db->query( "UPDATE Job SET `jobDesc` = '$jobDesc', `jobStatus` = '$jobStatus', `postedBy` = '$postedBy' WHERE id = $id" );
 	}

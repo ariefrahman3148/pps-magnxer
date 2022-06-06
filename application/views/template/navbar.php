@@ -2,7 +2,10 @@
             $( document ).ready(function() {
                 let user;
                 document.getElementById('logout').style.display = 'none';
-                document.getElementById('login').style.display = 'none';
+                document.getElementById('login').style.display = 'block';
+                document.getElementById('admin').style.display = 'none';
+                document.getElementById('perusahaan').style.display = 'none';
+                
 
                 $.get("<?php echo base_url("/api/user") ?>", function(data){
                     console.log("data", data);
@@ -11,13 +14,11 @@
                     $("#user").text(data.user.first_name+" "+data.user.last_name+" ("+data.group[0].description+")");
                     if(data.group.filter((g) => g.id == 1).length > 0){
                         document.getElementById('admin').style.display = 'block';
-                    } else{
-                        document.getElementById('admin').style.display = 'none';
+                    } else  if(data.group.filter((g) => g.id == 4).length > 0){
+                        document.getElementById('perusahaan').style.display = 'block';
                     }
                 })
                 .fail(function() {
-                    document.getElementById('logout').style.display = 'none';
-                    document.getElementById('login').style.display = 'block';
                 })
             });
         </script>
@@ -77,6 +78,7 @@
                                 <span class="dropdown-item-text" id="user"></span>
                                  <hr>
                                 <a class="dropdown-item" type="button" id="admin" href="<?php echo base_url('/admin') ?>">Admin</a>
+                                <a class="dropdown-item" type="button" id="perusahaan" href="<?php echo base_url('/company') ?>">Company</a>
                                 <a class="dropdown-item" type="button" href="<?php echo base_url('/login/logout') ?>">Logout</a>
                             </div>
                         </div>

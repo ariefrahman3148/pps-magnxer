@@ -110,7 +110,8 @@ class Login extends CI_Controller {
 				$additional_data = array(
 					'first_name' => $this->input->post('first_name'),
 					'last_name' => $this->input->post('last_name'),
-					'phone'=>$this->input->post('phone')
+					'phone'=>$this->input->post('phone'),
+					'company'=>$this->input->post('company')
 				);
 
 				if ( !$this->ion_auth->username_check( $email ) ) //cek username sudah terdaftar apa belum

@@ -14,6 +14,7 @@ class Api extends REST_Controller {
        $this->load->database();
        $this->load->model( array( 'm_blog') );
        $this->load->model( array( 'm_job') );
+       $this->load->model( array( 'm_companies') );
     }
        
     /**
@@ -108,32 +109,19 @@ class Api extends REST_Controller {
         return $this->response($blogs, 200);
         
     } 
-     
-    /**
-     * Get All Data from this method.
-     *
-     * @return Response
-    */
-    public function index_put($id)
-    {
-        $input = $this->put();
-        $this->db->update('items', $input, array('id'=>$id));
-     
-        $this->response(['Item updated successfully.'], REST_Controller::HTTP_OK);
-    }
-     
-    /**
-     * Get All Data from this method.
-     *
-     * @return Response
-    */
-    public function index_delete($id)
-    {
-        $this->db->delete('items', array('id'=>$id));
-       
-        $this->response(['Item deleted successfully.'], REST_Controller::HTTP_OK);
-    }
 
+    public function companies_get()
+    {
+        $companies = $this->m_companies->companies()->result();
+        return $this->response($companies, 200);
+    } 
+     
+    /**
+     * Get All Data from this method.
+     *
+     * @return Response
+    */
+    
     public function jobs_get()
     {
         $jobs = $this->m_job->jobs()->result();
